@@ -1,4 +1,0 @@
-# https://www.acmicpc.net/problem/2739
-
-a=int(input())
-for x in [1,2,3,4,5,6,7,8,9]:print(a,"*",x,"=",a*x)
