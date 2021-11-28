@@ -1,4 +1,4 @@
-# https://www.acmicpc.net/problem/2579
+# https://www.acDmicpc.net/problem/2579
 
 CheckDir = {}
 
