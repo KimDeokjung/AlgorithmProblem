@@ -1,4 +1,6 @@
 # https://www.acmicpc.net/problem/2751
+import sys
+input = sys.stdin.readline
 
 num = int(input())
 data = list()
