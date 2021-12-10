@@ -17,7 +17,7 @@ for x in range(1,int(pages[-1].get_text())+1):
 
     for span in trs:
         name = span.get_text()
-        fileName = "BaekJoon/" + level + "/" + name + ".py"
+        fileName = "BaekJoon/" + level + "/Num" + name + ".py"
         f = open(fileName, 'w')
         f.write("#https://www.acmicpc.net/problem/" + name)
         f.close()
