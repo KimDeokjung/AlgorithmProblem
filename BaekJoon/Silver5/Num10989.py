@@ -3,9 +3,13 @@
 import sys
 input = sys.stdin.readline
 
+result = [0] * 10000
+
 N = int(input())
-inputData = list()
 
-for x in range(N):inputData.append(int(input()))
+for x in range(N):result[int(input()) -1] += 1
 
-print(*sorted(inputData))
+for x in range(10000):
+    for y in range(result[x]):
+        print(x + 1)
+
