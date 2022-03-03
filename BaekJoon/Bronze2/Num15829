@@ -1,0 +1,19 @@
+# https://www.acmicpc.net/problem/15829
+
+r = 31
+M = 1234567891
+
+input()
+inputData = input()
+
+result = 0
+
+for x in range(len(inputData)):
+    target = ord(inputData[x]) - ord("a") + 1
+    for y in range(x):
+        target *= r
+        target %= M
+    result += target
+    result %= M
+
+print(result)
