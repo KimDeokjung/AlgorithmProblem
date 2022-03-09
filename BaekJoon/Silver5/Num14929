@@ -1,0 +1,6 @@
+input()
+M=list(map(int,input().split()))
+r=0
+s=sum(M[1:])
+for x in range(len(M)-1):r+=M[x]*s;s-=M[x+1]
+print(r)
