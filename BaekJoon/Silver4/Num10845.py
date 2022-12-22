@@ -1,5 +1,8 @@
 #https://www.acmicpc.net/problem/10845
 
+import sys
+input = sys.stdin.readline
+
 N = int(input())
 stack = list()
 result = list()

@@ -3,8 +3,12 @@
 N, K = map(int, input().split())
 
 coin = list()
+result = 0
 
-for x in range(N):
-    inputData = int(input())
-    if inputData <= K:coin.append(inputData)
+for x in range(N):coin.insert(0, int(input()))
 
+for x in coin:
+    result += K // x
+    K %= x
+
+print(result)
