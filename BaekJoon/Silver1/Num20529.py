@@ -26,10 +26,43 @@ for x in range(T):
         inputData.add(x)
 
     for a, b, c in combinations(inputData, 3):
-        flag = 0
-        flag += checkSum[a] * checkSum[b] * checkMbti(a, b)
-        flag += checkSum[c] * checkSum[b] * checkMbti(c, b)
-        flag += checkSum[a] * checkSum[c] * checkMbti(a, c)
+        flagA = flagB = flagC = 0
+
+        if checkSum[a] >= 3:
+            flagA = 0
+        elif checkSum[a] == 2:
+            flagA = min([2 * checkMbti(a, b), 2 * checkMbti(a, c)])
+        else:
+            flagA += checkMbti(a, b)
+            flagA += checkMbti(c, b)
+            flagA += checkMbti(a, c)
+
+        if checkSum[b] >= 3:
+            flagB = 0
+        elif checkSum[b] == 2:
+            flagB = min([2 * checkMbti(a, b), 2 * checkMbti(b, c)])
+        else:
+            flagB += checkMbti(a, b)
+            flagB += checkMbti(c, b)
+            flagB += checkMbti(a, c)
+
+        if checkSum[c] >= 3:
+            flagC = 0
+        elif checkSum[c] == 2:
+            flagC = min([2 * checkMbti(a, c), 2 * checkMbti(b, c)])
+        else:
+            flagC += checkMbti(a, b)
+            flagC += checkMbti(c, b)
+            flagC += checkMbti(a, c)
+
+        flag = min([flagA, flagB, flagC])
+        if result > flag: result = flag
+
+    if len(inputData) == 2:
+        a = inputData.pop()
+        b = inputData.pop()
+
+        flag = 2 * checkMbti(a, b)
         if result > flag: result = flag
 
     if result == 1000000: result = 0
