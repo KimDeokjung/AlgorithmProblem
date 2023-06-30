@@ -1,68 +1,25 @@
+T = int(input())
 totalResult = []
-for _ in range(int(input())):
+
+for _ in range(T):
     n = int(input())
-    inputData = list()
-    inputData.append(list(map(int, input().split())))
-    inputData.append(list(map(int, input().split())))
-    result = 0
+    inputData = [list(map(int, input().split())), list(map(int, input().split()))]
+    checkSum = [[0 for _ in range(n)] for _ in range(2)]
 
-    for x in range(2):
-        for y in range(n):
-            if inputData[x][y] == -1: continue
+    checkSum[0][0] = inputData[0][0]
+    checkSum[1][0] = inputData[1][0]
+    result = max(checkSum[0][0], checkSum[1][0])
 
-            while True:
-                tmpX = x
-                tmpY = y
+    if n > 1:
+        checkSum[0][1] = inputData[0][1] + inputData[1][0]
+        checkSum[1][1] = inputData[1][1] + inputData[0][0]
+        result = max(checkSum[0][1], checkSum[1][1])
 
-                while True:
-                    if inputData[tmpX][tmpY] == -1:break
-                    flag = []
-                    if tmpX - 1 >= 0: flag.append((tmpX - 1, tmpY))
-                    if tmpX + 1 < 2: flag.append((tmpX + 1, tmpY))
-                    if tmpY - 1 >= 0: flag.append((tmpX, tmpY - 1))
-                    if tmpY + 1 < n: flag.append((tmpX, tmpY + 1))
+    for x in range(2, n):
+        checkSum[0][x] = inputData[0][x] + max(checkSum[0][x - 2], checkSum[1][x - 2], checkSum[1][x - 1])
+        checkSum[1][x] = inputData[1][x] + max(checkSum[0][x - 2], checkSum[1][x - 2], checkSum[0][x - 1])
 
-                    maxData = inputData[tmpX][tmpY]
-                    maxX = tmpX
-                    maxY = tmpY
-
-                    maxCheckSum = -1
-                    for i, j in flag:
-                        if maxData != inputData[i][j] and maxCheckSum < inputData[i][j]:
-                            maxCheckSum = inputData[i][j]
-
-                    for i, j in flag:
-                        if inputData[i][j] > maxData:
-                            maxData = inputData[i][j]
-                            maxX = i
-                            maxY = j
-                        elif inputData[i][j] == maxData:
-                            flag2 = []
-                            if i - 1 >= 0: flag2.append((i - 1, j))
-                            if i + 1 < 2: flag2.append((i + 1, j))
-                            if j - 1 >= 0: flag2.append((i, j - 1))
-                            if j + 1 < n: flag2.append((i, j + 1))
-
-                            maxCheckSum2 = -1
-                            for k, l in flag2:
-                                if maxData != inputData[k][l] and maxCheckSum2 < inputData[k][l]:
-                                    maxCheckSum2 = inputData[k][l]
-                            if maxCheckSum2 < maxCheckSum:
-                                maxX = i
-                                maxY = j
-
-                    if maxData == inputData[tmpX][tmpY] and maxX == tmpX and maxY == tmpY:
-                        for i, j in flag:
-                            inputData[i][j] = -1
-
-                        result += inputData[tmpX][tmpY]
-                        inputData[tmpX][tmpY] = -1
-                        break
-                    else:
-                        tmpX = maxX
-                        tmpY = maxY
-                if tmpX == x and tmpY == y:
-                    break
+        result = max(checkSum[0][x], checkSum[1][x], result)
 
     totalResult.append(result)
 
