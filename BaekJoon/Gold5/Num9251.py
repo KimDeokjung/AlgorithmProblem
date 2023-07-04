@@ -1,19 +1,16 @@
-import copy
-
 first = input()
 second = input()
-checkSum = dict()
-flag = [-1]
+checkSum = [0 for _ in range(len(first))]
+result = 0
 
-for index, x in enumerate(first):
-    if x in checkSum:
-        checkSum[x].append(index)
-    else:
-        checkSum[x] = [index]
+for x in second:
+    flag = 0
+    for index, y in enumerate(first):
+        if flag < checkSum[index]:
+            flag = checkSum[index]
+        elif x == y:
+            checkSum[index] = flag + 1
+            result = max(flag + 1, result)
 
-for x in range(len(second)):
-    tmp = []
-    nowCheckSum = copy.deepcopy(checkSum)
-    for y in range(x, len(second)):
-        if second[y] not in nowCheckSum and len(nowCheckSum[second[y]]) == 0: continue
+print(result)
 
