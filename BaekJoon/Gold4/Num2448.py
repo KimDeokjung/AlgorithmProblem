@@ -1,15 +1,9 @@
 def abc(xPoint, yPoint):
-    inputData[xPoint][yPoint] = True
-    inputData[xPoint + 1][yPoint + 1] = True
+    inputData[xPoint][yPoint] = -1
+    inputData[xPoint + 1][yPoint + 1] = -1
+    inputData[xPoint + 1][yPoint - 1] = -1
 
-    inputData[xPoint + 1][yPoint - 1] = True
-    inputData[xPoint + 1][yPoint + 1] = True
-
-    inputData[xPoint + 2][yPoint - 2] = True
-    inputData[xPoint + 2][yPoint - 1] = True
-    inputData[xPoint + 2][yPoint] = True
-    inputData[xPoint + 2][yPoint + 1] = True
-    inputData[xPoint + 2][yPoint + 2] = True
+    inputData[xPoint + 2][yPoint - 2] = -5
 
 N = int(input())
 inputDataFlag = []
@@ -24,7 +18,7 @@ while tmp != 1:
     k += 1
     tmp //= 2
 
-inputData = [[False for _ in range(inputDataFlag[k])] for __ in range(N)]
+inputData = [[0 for _ in range(inputDataFlag[k])] for __ in range(N)]
 
 inputPoint = [(0, 2)]
 pointFlag = 3
@@ -41,8 +35,20 @@ for x in range(k):
 for xPoint, yPoint in inputPoint:
     abc(xPoint, yPoint)
 
+middlePoint = inputDataFlag[k] // 2 + 1
+flag = 1
 for x in inputData:
-    for y in x:
-        if y: print("*", end = "")
-        else: print(" ", end = "")
-    print()
+    print(" " * (middlePoint - flag), end="")
+    flag2 = 0
+    for y in range(middlePoint - flag, middlePoint):
+        flag2 += x[y]
+        if flag2 < 0:
+            flag2 += 1
+            print("*", end="")
+            continue
+        else:
+            print(" ", end="")
+    print(" " * (inputDataFlag[k] - middlePoint))
+    middlePoint += 1
+    flag += 2
+
