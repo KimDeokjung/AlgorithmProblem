@@ -1,18 +1,12 @@
-from collections import deque
-
-def abc(checkSum, xPoint, yPoint, value):
-    tmp = deque()
-    checkSum[xPoint][yPoint] = {value}
+def findA(result, xPoint, yPoint):
+    tmp = {1, 2, 3, 4, 5, 6, 7, 8, 9}
 
     for x in range(9):
-        if value in checkSum[x][yPoint]:
-            checkSum[x][yPoint].remove(value)
-            if len(checkSum[x][yPoint]) == 1:
-                tmp.append((x, yPoint))
-        if value in checkSum[xPoint][x]:
-            checkSum[xPoint][x].remove(value)
-            if len(checkSum[xPoint][x]) == 1:
-                tmp.append((xPoint, x))
+        if result[x][yPoint] in tmp:
+            tmp.remove(result[x][yPoint])
+
+        if result[xPoint][x] in tmp:
+            tmp.remove(result[xPoint][x])
 
     xArea = xPoint // 3
     xArea *= 3
@@ -21,29 +15,68 @@ def abc(checkSum, xPoint, yPoint, value):
 
     for x in range(xArea, xArea + 3):
         for y in range(yArea, yArea + 3):
-            if value in checkSum[x][y]:
-                checkSum[x][y].remove(value)
-                if len(checkSum[x][y]) == 1:
-                    tmp.append((x, y))
+            if result[x][y] in tmp:
+                tmp.remove(result[x][y])
 
-    checkSum[xPoint][yPoint] = {value}
     return tmp
 
+def abc(result, xPoint, yPoint):
+    if result[xPoint][yPoint] != 0:
+        tmpX = -1
+        tmpY = -1
+        tmpFlag = False
 
-checkSum = [[{1, 2, 3, 4, 5, 6, 7, 8, 9} for _ in range(9)] for __ in range(9)]
-flag = deque()
+        for x in range(9):
+            for y in range(9):
+                if result[x][y] == 0:
+                    tmpX = x
+                    tmpY = y
+                    tmpFlag = True
+                    break
+            if tmpFlag:
+                break
+
+        if tmpX == tmpY == -1:
+            return True
+        else:
+            checkSum = findA(result, tmpX, tmpY)
+
+            if len(checkSum) == 0:
+                return False
+            else:
+                for x in checkSum:
+                    result[tmpX][tmpY] = x
+                    nowResult = abc(result, tmpX, tmpY)
+                    if nowResult:
+                        return nowResult
+                    else:
+                        result[tmpX][tmpY] = 0
+                return False
+    else:
+        checkSum = findA(result, xPoint, yPoint)
+
+        if len(checkSum) == 0:
+            return False
+        else:
+            for x in checkSum:
+                result[xPoint][yPoint] = x
+                nowResult = abc(result, xPoint, yPoint)
+                if nowResult:
+                    return nowResult
+                else:
+                    result[xPoint][yPoint] = 0
+            return False
+
+result = [[0 for i in range(9)] for j in range(9)]
 
 for x in range(9):
     for index, y in enumerate(list(input())):
         if y != "0":
-            flag.extend(abc(checkSum, x, index, int(y)))
+            result[x][index] = int(y)
 
-while len(flag) != 0:
-    x, y = flag.popleft()
+abc(result, 0, 0)
 
-    flag.extend(abc(checkSum, x, y, checkSum[x][y].pop()))
-
-for x in checkSum:
+for x in result:
     for y in x:
-        print(*y, end="")
+        print(y, end="")
     print()
