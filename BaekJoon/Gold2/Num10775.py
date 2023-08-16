@@ -3,29 +3,29 @@ input = sys.stdin.readline
 
 G = int(input())
 P = int(input())
-checkSum = dict()
+checkSum = [[] for _ in range(G + 1)]
+result = 0
 
-tmp = int(input())
-checkSum[tmp] = tmp
-maxData = tmp
-minData = tmp
+for x in range(P):
+    if len(checkSum[0]) > 0:
+        break
 
-for x in range(P - 1):
-    data = int(input())
+    result += 1
+    g = int(input())
 
-    if data in checkSum:
-        checkSum[data] -= 1
-
-        if checkSum[data] in checkSum:
-            checkSum[data] = checkSum[checkSum[data]]
-            checkSum.pop(checkSum[data])
-
-        if checkSum[data] == 0:
-            break
-    elif data == maxData + 1:
-        checkSum[data] = checkSum[maxData]
-        checkSum.pop(maxData)
-    elif data > maxData + 1:
-        checkSum[data] = checkSum
+    if len(checkSum[g]) == 0:
+        checkSum[g].append(g - 1)
+    elif len(checkSum[checkSum[g][0]]) == 0:
+        checkSum[checkSum[g][0]] = checkSum[g]
+        checkSum[g][0] -= 1
     else:
-        pass
+        tmp = g
+        while True:
+            tmp = checkSum[tmp][0]
+            if len(checkSum[tmp]) == 0:
+                checkSum[tmp] = checkSum[g]
+                checkSum[g][0] = tmp - 1
+                break
+
+if len(checkSum[0]) > 0: result -= 1
+print(result)
