@@ -29,3 +29,4 @@ for x in range(P):
 
 if len(checkSum[0]) > 0: result -= 1
 print(result)
+
