@@ -1,33 +1,17 @@
-def abc(application, coast, point, result, target, N):
-    nowResult = result
-    nowResult += application[point]
-    if result >= target:
-        return coast[point]
-    if point == N - 1:
-        return -1
-    flag = 10001
-
-    for x in range(point + 1, N):
-        tmp = abc(application, coast, x, nowResult, target, N)
-        if tmp == -1:
-            continue
-        flag = min(flag, tmp)
-
-    return flag + coast[point]
-
-
 N, M = map(int, input().split())
-inputDataA = list(map(int, input().split()))
-inputDataC = list(map(int, input().split()))
-visited = [False for _ in range(N)]
+application = [0] + list(map(int, input().split()))
+coast = [0] + list(map(int, input().split()))
+totalCoast = sum(coast)
+checkSum = [[0 for _ in range(totalCoast + 1)] for __ in range(N + 1)]
 result = 10001
 
-for x in range(N):
-    tmp = abc(inputDataA, inputDataC, x, 0, M, N)
-    if tmp == -1: continue
-    else:
-        print(tmp)
 
-        result = min(result, tmp)
+for x in range(1, N + 1):
+    for y in range(1, totalCoast + 1):
+        if y < coast[x]: checkSum[x][y] = checkSum[x - 1][y]
+        else:
+            checkSum[x][y] = max(checkSum[x - 1][y - coast[x]] + application[x], checkSum[x - 1][y])
+            if checkSum[x][y] >= M:
+                result = min(result, y)
 
 print(result)
