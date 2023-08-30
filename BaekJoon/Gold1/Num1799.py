@@ -34,15 +34,25 @@ def abc(inputData, checkSum):
                 tmpInput[i][j] = 1
     return result
 
-
-
-
-
 N = int(input())
+blackInput = []
+whiteInput = []
 
-inputData = list()
-for x in range(N): inputData.append(list(map(int, input().split())))
+for x in range(N):
+    tmp = list(map(int, input().split()))
+    blackTmp = []
+    whiteTmp = []
+    for y in range(N):
+        if (x + y) % 2 == 0:
+            blackTmp.append(tmp[y])
+            whiteTmp.append(0)
+        else:
+            blackTmp.append(0)
+            whiteTmp.append(tmp[y])
+    blackInput.append(blackTmp)
+    whiteInput.append(whiteTmp)
 
-checkSum = dict()
+blackCheckSum = dict()
+whiteCheckSum = dict()
 
-print(abc(inputData, checkSum))
+print(abc(blackInput, blackCheckSum) + abc(whiteInput, whiteCheckSum))
