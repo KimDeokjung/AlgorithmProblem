@@ -33,6 +33,8 @@ inputList[originGoal[0]][originGoal[1]] = "O"
 
 while len(checkSum) != 0:
     originRX, originRY, originBX, originBY, count = checkSum.popleft()
+    inputList[originRX][originRY] = "R"
+    inputList[originBX][originBY] = "B"
 
     for x, y in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
         nowRX = nextRX = originRX
@@ -42,13 +44,14 @@ while len(checkSum) != 0:
         totalResult = 1
         inputList[originRX][originRY] = "R"
         inputList[originBX][originBY] = "B"
+        inputList[originGoal[0]][originGoal[1]] = "O"
 
         while True:
             if 0 <= nowRX + x < N and 0 <= nowRY + y < M:
                 if inputList[nowRX + x][nowRY + y] == ".":
                     nextRX = nowRX + x
                     nextRY = nowRY + y
-                elif nowRX + x == originGoal[0] and nowRY + y == originGoal[1]:
+                elif inputList[nowRX + x][nowRY + y] == "O":
                     nextRX = nowRX + x
                     nextRY = nowRY + y
                     if totalResult != 3:
@@ -58,7 +61,7 @@ while len(checkSum) != 0:
                 if inputList[nowBX + x][nowBY + y] == ".":
                     nextBX = nowBX + x
                     nextBY = nowBY + y
-                elif nowBX + x == originGoal[0] and nowBY + y == originGoal[1]:
+                elif inputList[nowBX + x][nowBY + y] == "O":
                     nextBX = nowBX + x
                     nextBY = nowBY + y
                     totalResult = 3
@@ -67,14 +70,20 @@ while len(checkSum) != 0:
                 break
 
             if nextRX != nowRX or nextRY != nowRY:
-                inputList[nextRX][nextRY] = "R"
+                if nextRX == originGoal[0] and nextRY == originGoal[1]:
+                    pass
+                else:
+                    inputList[nextRX][nextRY] = "R"
                 if nowRX == originGoal[0] and nowRY == originGoal[1]:
                     inputList[nowRX][nowRY] = "O"
                 else:
                     inputList[nowRX][nowRY] = "."
 
             if nextBX != nowBX or nextBY != nowBY:
-                inputList[nextBX][nextBY] = "B"
+                if nextBX == originGoal[0] and nextBY == originGoal[1]:
+                    pass
+                else:
+                    inputList[nextBX][nextBY] = "B"
                 if nowBX == originGoal[0] and nowBY == originGoal[1]:
                     inputList[nowBX][nowBY] = "O"
                 else:
